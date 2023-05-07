@@ -44,22 +44,23 @@ footer {
     color: white;
 }
 
-div.twocols {
-  margin-top: 35px;
-  column-count: 2;
-}
-div.twocols p:first-child,
-div.twocols h1:first-child,
-div.twocols h2:first-child,
-div.twocols ul:first-child,
-div.twocols ul li:first-child,
-div.twocols ul li p:first-child {
-  margin-top: 0 !important;
-}
-div.twocols p.break {
-  break-before: column;
-  margin-top: 0;
-}
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .columns3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  } 
+
+.fa-twitter { color: aqua; }
+.fa-mastodon { color: purple; }
+.fa-linkedin { color: blue; }
+.fa-window-maximize { color: skyblue; }
+
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css'
 
 </style>
 
@@ -110,31 +111,36 @@ Ansible can manage differents OS, network equipments, and even containers!
 ---
 ### Ansible functionalities
 
-<div class="twocols">
+<div class="columns">
+<div>
 
 ![right:50% w:500](./assets/chapter1/life-cycle.png)
 
-<p class="break"></p>
+</div>
+<div>
 
 Ansible is "push-based" (stateless).
 
+</div>
 </div>
 
 ---
 
 ### A little word about devops
 
-<div class="twocols">
+<div class="columns">
 
+<div>
 Optimize the work of all the teams:
 
   * build
   * run
   * change
-
-<p class="break"></p>
+</div>
+<div>
 
 ![right:20% w:250](./assets/chapter1/devops.png)
+</div>
 
 </div>
 implementing continuous integration/deployment
@@ -153,20 +159,22 @@ To offer a graphical interface to your daily use of Ansible, you can install som
 
 The management machine is the server on which Ansible is installed (no software is deployed on the managed servers.).
 
-<div class="twocols">
+<div class="columns">
+<div>
 
 * task
 * module
 * inventory
 * playbook
-
-<p class="break"></p>
+</div>
+<div>
 
 * role
 * fact
 * handler
 * collection
 
+</div>
 </div>
 
 <!-- 
