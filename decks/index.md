@@ -4,9 +4,7 @@ theme: gaia
 _class: lead
 paginate: false
 markdown.marp.enableHtml: true
-
 backgroundColor: #fff
-
 header: Learning with Rocky Linux
 footer: Rocky Linux Academy
 ---
@@ -43,23 +41,16 @@ footer {
     align-content: right;
     color: white;
 }
-
-div.twocols {
-  margin-top: 35px;
-  column-count: 2;
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
-div.twocols p:first-child,
-div.twocols h1:first-child,
-div.twocols h2:first-child,
-div.twocols ul:first-child,
-div.twocols ul li:first-child,
-div.twocols ul li p:first-child {
-  margin-top: 0 !important;
-}
-div.twocols p.break {
-  break-before: column;
-  margin-top: 0;
-}
+.columns3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+} 
 
 </style>
 

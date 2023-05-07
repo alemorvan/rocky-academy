@@ -44,37 +44,32 @@ footer {
     color: white;
 }
 
-div.twocols {
-  margin-top: 35px;
-  column-count: 2;
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
-div.twocols p:first-child,
-div.twocols h1:first-child,
-div.twocols h2:first-child,
-div.twocols ul:first-child,
-div.twocols ul li:first-child,
-div.twocols ul li p:first-child {
-  margin-top: 0 !important;
-}
-div.twocols p.break {
-  break-before: column;
-  margin-top: 0;
-}
+.columns3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+} 
 
 </style>
 
 ![right:20% w:100](./assets/rocky_linux_logo.svg)
 
 Ansible is a simple, yet powerful, automation engine for Linux.
+<br/>
 
-<div class="twocols">
-
+<div class="columns">
+<div>
 This tutorial will guide you through the concepts of using Ansible to automate your IT tasks in a way that is (hopefully) fun and informative. 
-
-<p class="break"></p>
-
+</div>
+<div>
 Using the exercises throughout these chapters, will help you gain a comfort level with Ansible in real-world applications.
 
+</div>
 </div>
 
 ---

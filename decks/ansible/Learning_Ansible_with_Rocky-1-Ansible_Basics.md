@@ -44,33 +44,36 @@ footer {
     color: white;
 }
 
-  .columns {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-  .columns3 {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  } 
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.columns3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+} 
 
 .fa-twitter { color: aqua; }
 .fa-mastodon { color: purple; }
 .fa-linkedin { color: blue; }
 .fa-window-maximize { color: skyblue; }
-
+.fa-circle-exclamation { color: red; }
+.fa-trophy { color: #10b981; }
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css'
-
+table {
+  font-size: 10px;
+}
 </style>
 
-# 1 - Ansible Basics¶
+# 1 - Ansible Basics
 ## Learning Ansible with Rocky
 
 ---
 <br/>
 
-# :trophy: Objectives
+# <i class="fa-solid fa-trophy"></i> Objectives
 
 In this chapter you will learn how to work with Ansible.
 
@@ -93,7 +96,7 @@ Ansible centralizes and automates administration tasks. It is:
 <br/>
 <br/>
 
-:no_entry: The opening of SSH or WinRM flows to all clients from the Ansible server, makes it a **critical element of the architecture** that must be carefully monitored.
+<i class="fa-solid fa-circle-exclamation"></i> The opening of SSH or WinRM flows to all clients from the Ansible server, makes it a **critical element of the architecture** that must be carefully monitored.
 
 
 
@@ -155,7 +158,7 @@ implementing continuous integration/deployment
 To offer a graphical interface to your daily use of Ansible, you can install some tools like Ansible Tower (RedHat), which is not free, its opensource counterpart Awx, or other projects like Jenkins and the excellent Rundeck can also be used.
 
 ---
-### The Ansible vocabulary¶
+### The Ansible vocabulary
 
 The management machine is the server on which Ansible is installed (no software is deployed on the managed servers.).
 
@@ -300,3 +303,269 @@ rocky9
 
 
 # Questions ?
+
+---
+# ansible command line usage
+<style scoped>
+table {
+  font-size: 0.5em;
+}
+</style>
+
+The ansible command launches a task on one or more target hosts.
+
+```bash
+ansible <host-pattern> [-m module_name] [-a args] [options]
+```
+
+| Option | Information |
+|--------|-------------|
+| -m module	             | Runs the module called|
+| -a 'arguments'         | The arguments to pass to the module. |
+| -b -K	                 | Requests a password and runs the command with higher privileges. |
+| --user=username	       | Uses this user to connect to the target host instead of the current user. | 
+| --become-user=username | Executes the operation as this user (default: root). | 
+| -C	                   | Simulation. Does not make any changes to the target but tests it to see what should be changed.| 
+
+---
+#
+
+<i class="fa-solid fa-circle-exclamation"></i> Since we have not yet configured authentication on our 2 test servers, not all the following examples will work. They are given as examples to facilitate understanding, and will be fully functional later in this chapter.
+
+---
+#
+
+List the hosts belonging to the rocky8 group:
+
+```bash
+ansible rocky9 --list-hosts
+```
+
+---
+#
+
+Ping a host group with the ping module:
+
+```bash
+ansible rocky9 -m ping
+```
+
+---
+#
+
+Display facts from a host group with the setup module:
+
+```bash
+ansible rocky9 -m setup
+```
+
+---
+#
+
+Run a command on a host group by invoking the command module with arguments:
+
+```bash
+ansible rocky9 -m command -a 'uptime'
+```
+
+---
+#
+
+Run a command with administrator privileges:
+
+```bash
+ansible rocky9 --become -m command -a 'reboot'
+```
+
+---
+#
+
+Run a command using a custom inventory file:
+
+```bash
+ansible rocky9 -i ./local-inventory -m command -a 'date'
+```
+
+> As in this example, it is sometimes simpler to separate the declaration of managed devices into several files (by cloud project for example) and provide Ansible with the path to these files, rather than to maintain a long inventory file.
+
+---
+# Preparing the client
+
+On both management machine and clients, we will create an ansible user dedicated to the operations performed by Ansible. This user will have to use sudo rights, so it will have to be added to the wheel group.
+
+---
+# Preparing the client
+
+This user will be used:
+
+* On the administration station side: to run ansible commands and ssh to managed clients.
+* On the managed stations (here the server that serves as your administration station also serves as a client, so it is managed by itself) to execute the commands launched from the administration station: it must therefore have sudo rights.
+
+---
+# Preparing the client
+
+On both machines, create an ansible user, dedicated to ansible:
+
+```bash
+$ sudo useradd ansible
+$ sudo usermod -aG wheel ansible
+```
+
+Set a password for this user:
+
+```bash
+$ sudo passwd ansible
+```
+
+---
+# Preparing the client
+
+Modify the `sudoers` config to allow members of the `wheel` group to sudo without password:
+
+```bash
+$ sudo visudo
+```
+
+---
+# Preparing the client
+
+Our goal here is to comment out the default, and uncomment the `NOPASSWD` option so that these lines look like this when we are done:
+
+```bash
+## Allows people in group wheel to run all commands
+# %wheel  ALL=(ALL)       ALL
+
+## Same thing without a password
+%wheel        ALL=(ALL)       NOPASSWD: ALL
+```
+
+---
+# Test with the ping module
+
+By default, password login is not allowed by Ansible.
+
+Uncomment the following line from the `[defaults]` section in the `/etc/ansible/ansible.cfg` configuration file and set it to `True`:
+
+```bash
+ask_pass      = True
+```
+
+---
+# Test with the ping module
+
+When using management from this point on, start working with this new user:
+
+```bash
+$ sudo su - ansible
+```
+
+---
+# Test with the ping module
+
+Run a ping on each server of the rocky8 group:
+
+```bash
+SHELL > ansible rocky9 -m ping
+SSH password:
+172.16.1.10 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+172.16.1.11 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+---
+#
+
+You are asked for the ansible password of the remote servers, which is a security problem...
+
+You can now test the commands that didn't work previously in this chapter.
+
+---
+# Key authentication
+
+Password authentication will be replaced by a much more secure private/public key authentication.
+
+---
+# Creating an SSH key
+
+The dual-key will be generated with the command ssh-keygen on the **management station by the ansible user**:
+
+```bash
+SHELL > ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ansible/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/ansible/.ssh/id_rsa.
+Your public key has been saved in /home/ansible/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:Oa1d2hYzzdO0e/K10XPad25TA1nrSVRPIuS4fnmKr9g ansible@localhost.localdomain
+The key's randomart image is:
++---[RSA 3072]----+
+|           .o . +|
+|           o . =.|
+|          . . + +|
+|         o . = =.|
+|        S o = B.o|
+|         = + = =+|
+|        . + = o+B|
+|         o + o *@|
+|        . Eoo .+B|
++----[SHA256]-----+
+```
+
+---
+# Creating an SSH key
+
+The public key can be copied to the servers:
+
+```bash
+# ssh-copy-id ansible@172.16.1.10
+# ssh-copy-id ansible@172.16.1.11
+```
+
+Re-comment the following line from the `[defaults]` section in the `/etc/ansible/ansible.cfg` configuration file to prevent password authentication
+
+```bash
+# ask_pass      = True
+```
+---
+
+# Private key authentication test
+
+For the next test, the shell module, allowing remote command execution, is used:
+
+```bash
+# ansible rocky8 -m shell -a "uptime"
+172.16.1.10 | SUCCESS | rc=0 >>
+ 12:36:18 up 57 min,  1 user,  load average: 0.00, 0.00, 0.00
+
+172.16.1.11 | SUCCESS | rc=0 >>
+ 12:37:07 up 57 min,  1 user,  load average: 0.00, 0.00, 0.00
+```
+No password is required, private/public key authentication works!
+
+---
+# 
+
+<i class="fa-solid fa-circle-exclamation"></i> In production environment, you should now remove the `ansible` passwords previously set to enforce your security (as now an authentication password is not necessary).
+
+---
+# The modules
+
+The list of modules classified by category can be found [here](https://docs.ansible.com/ansible/latest/collections/index_module.html). 
+
+Ansible offers more than 750!
+
+The modules are now grouped into module collections, a list of which can be found [here](https://docs.ansible.com/ansible/latest/collections/index.html).
+
+> Collections are a distribution format for Ansible content that can include playbooks, roles, modules, and plugins.
+
+
+
+
+
