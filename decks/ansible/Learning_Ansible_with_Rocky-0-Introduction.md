@@ -81,5 +81,5 @@ Using the exercises throughout these chapters, will help you gain a comfort leve
 
 # Table of contents
 
-* [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.html)
-* [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
+* [Introduction](./Learning_Ansible_with_Rocky-0-Introduction.html)
+* [Ansible Basics](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
