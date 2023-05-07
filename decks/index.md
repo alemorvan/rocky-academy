@@ -7,8 +7,8 @@ markdown.marp.enableHtml: true
 
 backgroundColor: #fff
 
-header: <img src='./assets/rocky_linux_logo.svg'> Learning Ansible with Rocky | Introduction
-footer: Rocky Linux Academy - Ansible courses
+header: Learning with Rocky Linux
+footer: Rocky Linux Academy
 ---
 <style>
 img[alt~="center"] {
@@ -63,23 +63,24 @@ div.twocols p.break {
 
 </style>
 
-![right:20% w:100](./assets/rocky_linux_logo.svg)
+<br/>
+<br/>
 
-Ansible is a simple, yet powerful, automation engine for Linux.
+![right:50% w:300](./assets/rocky_linux_logo.svg)
 
-<div class="twocols">
+Learning Linux with rocky linux made easy.
 
-This tutorial will guide you through the concepts of using Ansible to automate your IT tasks in a way that is (hopefully) fun and informative. 
-
-<p class="break"></p>
-
-Using the exercises throughout these chapters, will help you gain a comfort level with Ansible in real-world applications.
-
-</div>
+# Welcome to the Rocky Linux Academy
 
 ---
 
-# Table of contents
+# What you will learn :
+
+- Learning Ansible with Rocky Linux
+
+---
+
+# Learning Ansible with Rocky Linux
 
 * [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.md)
 * [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.md)
