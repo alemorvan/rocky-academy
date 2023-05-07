@@ -32,7 +32,7 @@ jobs:
       - name: Marp Build (README)
         uses: docker://marpteam/marp-cli:v1.7.0
         with:
-          args: decks/*.md -o build/ --html
+          args: decks/Learning Ansible with Rocky - 1 - Ansible Basics.md -o build/Learning_Ansible_with_Rocky-1-Ansible_Basics.md --html
         env:
           MARP_USER: root:root
       - name: Setup Pages
