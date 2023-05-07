@@ -64,11 +64,10 @@ div.twocols p.break {
 </style>
 
 <br/>
-<br/>
 
-![right:50% w:300](./assets/rocky_linux_logo.svg)
+![right:50% w:200](./assets/rocky_linux_logo.svg)
 
-Learning Linux with rocky linux made easy.
+Learning Linux made easy.
 
 # Welcome to the Rocky Linux Academy
 
@@ -82,5 +81,5 @@ Learning Linux with rocky linux made easy.
 
 # Learning Ansible with Rocky Linux
 
-* [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.md)
-* [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.md)
+* [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.html)
+* [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
