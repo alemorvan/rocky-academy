@@ -74,3 +74,4 @@ Learning Linux made easy.
 
 * [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.html)
 * [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
+* [Ansible Intermediate](./ansible/Learning_Ansible_with_Rocky-2-Ansible_Advanced.html)

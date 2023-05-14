@@ -77,9 +77,10 @@ table {
 
 In this chapter you will learn how to work with Ansible.
 
-* Implement Ansible;
-* Apply configuration changes on a server;
-* Create first Ansible playbooks;
+:heavy_check_mark: Implement Ansible;
+:heavy_check_mark: Apply configuration changes on a server;
+:heavy_check_mark: Create first Ansible playbooks;
+
 ---
 <br/>
 
