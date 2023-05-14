@@ -76,5 +76,7 @@ Using the exercises throughout these chapters, will help you gain a comfort leve
 
 # Table of contents
 
-* [Introduction](./Learning_Ansible_with_Rocky-0-Introduction.html)
-* [Ansible Basics](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
+:heavy_check_mark: [Introduction](./Learning_Ansible_with_Rocky-0-Introduction.html)
+:heavy_check_mark: [Ansible Basics](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
+:heavy_check_mark: [Ansible Intermediate](./Learning_Ansible_with_Rocky-2-Ansible_Advanced.html)
+
