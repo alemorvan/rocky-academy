@@ -565,7 +565,446 @@ The modules are now grouped into module collections, a list of which can be foun
 
 > Collections are a distribution format for Ansible content that can include playbooks, roles, modules, and plugins.
 
+---
+# The modules
+
+A module is invoked with the `-m` option of the `ansible` command:
+
+```
+ansible <host-pattern> [-m module_name] [-a args] [options]
+```
+
+There is a module for almost every need! It is thus advised, instead of using the shell module, to look for a module adapted to the need.
+
+---
+<style scoped>
+table {
+  font-size: 0.7em;
+}
+</style>
+Each category of need has its own module. Here is a non-exhaustive list:
+
+| Type                | Examples                                                     |
+|---------------------|--------------------------------------------------------------|
+| System Management   | `user` (users management), `group` (groups management), etc. |
+| Software management | `dnf`,`yum`, `apt`, `pip`, `npm`                             |
+| File management     | `copy`, `fetch`, `lineinfile`, `template`, `archive`         |
+| Database management | `mysql`, `postgresql`, `redis`                               |
+| Cloud management    | `amazon S3`, `cloudstack`, `openstack`                       |
+| Cluster management  | `consul`, `zookeeper`                                        |
+| Send commands       |  `shell`, `script`, `expect`                                 |
+| Downloads           |  `get_url`                                                   |
+| Source management   |  `git`, `gitlab`                                             |
+
+---
+# Example of software installation
+<style scoped>
+code {
+  font-size: 0.4em;
+}
+</style>
+
+The `dnf` module allows for the installation of software on the targets:
+
+```
+# ansible rocky8 --become -m dnf -a name="httpd"
+172.16.1.10 | SUCCESS => {
+    "changed": true,
+    "msg": "",
+    "rc": 0,
+    "results": [
+      ...
+      \n\nComplete!\n"
+    ]
+}
+172.16.1.11 | SUCCESS => {
+    "changed": true,
+    "msg": "",
+    "rc": 0,
+    "results": [
+      ...
+    \n\nComplete!\n"
+    ]
+}
+```
+
+---
+# Example of software installation
+<style scoped>
+code {
+  font-size: 0.6em;
+}
+</style>
+The installed software being a service, it is now necessary to start it with the module `systemd`:
+
+```
+# ansible rocky8 --become  -m systemd -a "name=httpd state=started"
+172.16.1.10 | SUCCESS => {
+    "changed": true,
+    "name": "httpd",
+    "state": "started"
+}
+172.16.1.11 | SUCCESS => {
+    "changed": true,
+    "name": "httpd",
+    "state": "started"
+}
+```
+
+---
+#
+
+Try to launch those last 2 commands twice. You will observe that the first time Ansible will take actions to reach the state set by the command. The second time, it will do nothing because it will have detected that the state is already reached!
+
+---
+# Exercises
+<style scoped>
+li {
+  font-size: 0.7em;
+}
+</style>
 
 
+<div class="columns">
+<div>
+To help discover more about Ansible and to get used to searching the Ansible documentation, here are some exercises you can do before going on:
 
+Do not use the shell module. Look in the documentation for the appropriate modules!
+</div>
+<div>
 
+* Create the groups Paris, Tokio, NewYork
+* Create the user `supervisor`
+* Change the user to have a uid of 10000
+* Change the user so that it belongs to the Paris group
+* Install the tree software
+* Stop the crond service
+* Create an empty file with `644` rights
+* Update your client distribution
+* Restart your client
+
+</div>
+
+</div>
+
+---
+# `setup` module: introduction to facts
+
+The system facts are variables retrieved by Ansible via its `setup` module.
+
+Take a look at the different facts of your clients to get an idea of the amount of information that can be easily retrieved via a simple command.
+
+We'll see later how to use facts in our playbooks and how to create our own facts.
+
+---
+#
+
+```
+# ansible ansible_clients -m setup | less
+192.168.1.11 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "192.168.1.11"
+        ],
+        "ansible_all_ipv6_addresses": [
+            "2001:861:3dc3:fcf0:a00:27ff:fef7:28be",
+            "fe80::a00:27ff:fef7:28be"
+        ],
+        "ansible_apparmor": {
+            "status": "disabled"
+        },
+        "ansible_architecture": "x86_64",
+        "ansible_bios_date": "12/01/2006",
+        "ansible_bios_vendor": "innotek GmbH",
+        "ansible_bios_version": "VirtualBox",
+        "ansible_board_asset_tag": "NA",
+        "ansible_board_name": "VirtualBox",
+        "ansible_board_serial": "NA",
+        "ansible_board_vendor": "Oracle Corporation",
+        ...
+```
+
+---
+#
+
+Now that we have seen how to configure a remote server with Ansible on the command line, we will be able to introduce the notion of playbook. Playbooks are another way to use Ansible, which is not much more complex, but which will make it easier to reuse your code.
+
+---
+# Playbooks
+
+Ansible's playbooks describe a policy to be applied to remote systems, to force their configuration.
+
+Playbooks are written in an easily understandable text format that groups together a set of tasks: the `yaml` format.
+
+Learn more about yaml at [https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
+
+---
+# Playbooks
+
+Syntaxe:
+```
+ansible-playbook <file.yml> ... [options]
+```
+
+The options are identical to the `ansible` command.
+
+---
+# Example of Apache and MySQL playbook
+
+The following playbook allows us to install Apache and MariaDB on our target servers.
+
+---
+<style scoped>
+code {
+  font-size: 0.5em;
+}
+</style>
+Create a `test.yml` file with the following content:
+
+```
+---
+- hosts: rocky8 <1>
+  become: true <2>
+  become_user: root
+
+  tasks:
+
+    - name: ensure apache is at the latest version
+      dnf: name=httpd,php,php-mysqli state=latest
+
+    - name: ensure httpd is started
+      systemd: name=httpd state=started
+
+    - name: ensure mariadb is at the latest version
+      dnf: name=mariadb-server state=latest
+
+    - name: ensure mariadb is started
+      systemd: name=mariadb state=started
+...
+```
+
+---
+#
+
+<1> The targeted group or the targeted server must exist in the inventory
+<2> Once connected, the user becomes `root` (via `sudo` by default)
+
+---
+<style scoped>
+code {
+  font-size: 0.35em;
+}
+</style>
+#
+
+The execution of the playbook is done with the command `ansible-playbook`:
+
+```
+$ ansible-playbook test.yml
+
+PLAY [rocky8] ****************************************************************
+
+TASK [setup] ******************************************************************
+ok: [172.16.1.10]
+ok: [172.16.1.11]
+
+TASK [ensure apache is at the latest version] *********************************
+ok: [172.16.1.10]
+ok: [172.16.1.11]
+
+TASK [ensure httpd is started] ************************************************
+changed: [172.16.1.10]
+changed: [172.16.1.11]
+
+TASK [ensure mariadb is at the latest version] **********************************
+changed: [172.16.1.10]
+changed: [172.16.1.11]
+
+TASK [ensure mariadb is started] ***********************************************
+changed: [172.16.1.10]
+changed: [172.16.1.11]
+
+PLAY RECAP *********************************************************************
+172.16.1.10             : ok=5    changed=3    unreachable=0    failed=0
+172.16.1.11             : ok=5    changed=3    unreachable=0    failed=0
+```
+
+---
+#
+
+For more readability, it is recommended to write your playbooks in full yaml format. 
+
+In the previous example, the arguments are given on the same line as the module, the value of the argument following its name separated by an `=`. 
+
+---
+# 
+<style scoped>
+code {
+  font-size: 0.35em;
+}
+</style>
+Look at the same playbook in full yaml:
+
+```
+---
+- hosts: rocky8
+  become: true
+  become_user: root
+
+  tasks:
+
+    - name: ensure apache is at the latest version
+      dnf:
+        name: httpd,php,php-mysqli
+        state: latest
+
+    - name: ensure httpd is started
+      systemd:
+        name: httpd
+        state: started
+
+    - name: ensure mariadb is at the latest version
+      dnf:
+        name: mariadb-server
+        state: latest
+
+    - name: ensure mariadb is started
+      systemd:
+        name: mariadb
+        state: started
+...
+```
+
+---
+#
+
+Note:     `dnf` is one of the modules that allow you to give it a list as argument.
+
+```
+    - name: ensure apache is at the latest version
+      dnf:
+        name:
+          - httpd
+          - php
+          - php-mysqli
+        state: latest
+```
+
+---
+# Note about collections
+
+Ansible now provides modules in the form of collections.
+
+Some modules are provided by default within the `ansible.builtin` collection, others must be installed manually via the:
+
+```
+ansible-galaxy collection install [collectionname]
+```
+
+where [collectionname] is the name of the collection (the square brackets here are used to highlight the need to replace this with an actual collection name, and are NOT part of the command).
+
+---
+<style scoped>
+code {
+  font-size: 0.35em;
+}
+</style>
+The previous example should be written like this:
+
+```
+---
+- hosts: rocky8
+  become: true
+  become_user: root
+
+  tasks:
+
+    - name: ensure apache is at the latest version
+      ansible.builtin.dnf:
+        name: httpd,php,php-mysqli
+        state: latest
+
+    - name: ensure httpd is started
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
+
+    - name: ensure mariadb is at the latest version
+      ansible.builtin.dnf:
+        name: mariadb-server
+        state: latest
+
+    - name: ensure mariadb is started
+      ansible.builtin.systemd:
+        name: mariadb
+        state: started
+...
+```
+
+---
+<style scoped>
+code {
+  font-size: 0.30em;
+}
+</style>
+A playbook is not limited to one target:
+
+```
+---
+- hosts: webservers
+  become: true
+  become_user: root
+
+  tasks:
+
+    - name: ensure apache is at the latest version
+      ansible.builtin.dnf:
+        name: httpd,php,php-mysqli
+        state: latest
+
+    - name: ensure httpd is started
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
+
+- hosts: databases
+  become: true
+  become_user: root
+
+    - name: ensure mariadb is at the latest version
+      ansible.builtin.dnf:
+        name: mariadb-server
+        state: latest
+
+    - name: ensure mariadb is started
+      ansible.builtin.systemd:
+        name: mariadb
+        state: started
+...
+```
+
+---
+# Code quality
+
+You can check the syntax of your playbook:
+
+```
+$ ansible-playbook --syntax-check play.yml
+```
+
+---
+# Code quality
+
+You can also use a "linter" for yaml:
+
+```
+$ dnf install -y yamllint
+```
+
+then check the yaml syntax of your playbooks:
+
+```
+$ yamllint test.yml
+test.yml
+  8:1       error    syntax error: could not find expected ':' (syntax)
+```
