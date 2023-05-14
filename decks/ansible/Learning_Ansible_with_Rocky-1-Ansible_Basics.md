@@ -81,6 +81,17 @@ In this chapter you will learn how to work with Ansible.
 * Apply configuration changes on a server;
 * Create first Ansible playbooks;
 ---
+<br/>
+
+# Plan
+
+* [Generalities](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html#4)
+* [Installation](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html#12)
+* [Ansible CLI](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html#20)
+* [Deployment](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html#30)
+* [The modules](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html#46)
+* [Playbooks](./Learning_Ansible_with_Rocky-1-Ansible_Basics.html#58)
+---
 #
 
 Ansible centralizes and automates administration tasks. It is:
@@ -305,6 +316,13 @@ rocky9
 # Questions ?
 
 ---
+<br/>
+<br/>
+<br/>
+
+# Ansible CLI
+
+---
 # ansible command line usage
 <style scoped>
 table {
@@ -387,6 +405,21 @@ ansible rocky9 -i ./local-inventory -m command -a 'date'
 ```
 
 > As in this example, it is sometimes simpler to separate the declaration of managed devices into several files (by cloud project for example) and provide Ansible with the path to these files, rather than to maintain a long inventory file.
+
+---
+<br/>
+<br/>
+<br/>
+
+
+# Questions ?
+
+---
+<br/>
+<br/>
+<br/>
+
+# Deployment
 
 ---
 # Preparing the client
@@ -553,6 +586,21 @@ No password is required, private/public key authentication works!
 # 
 
 <i class="fa-solid fa-circle-exclamation"></i> In production environment, you should now remove the `ansible` passwords previously set to enforce your security (as now an authentication password is not necessary).
+
+---
+<br/>
+<br/>
+<br/>
+
+
+# Questions ?
+
+---
+<br/>
+<br/>
+<br/>
+
+# The modules
 
 ---
 # The modules
@@ -728,6 +776,21 @@ We'll see later how to use facts in our playbooks and how to create our own fact
 #
 
 Now that we have seen how to configure a remote server with Ansible on the command line, we will be able to introduce the notion of playbook. Playbooks are another way to use Ansible, which is not much more complex, but which will make it easier to reuse your code.
+
+---
+<br/>
+<br/>
+<br/>
+
+
+# Questions ?
+
+---
+<br/>
+<br/>
+<br/>
+
+# Playbooks
 
 ---
 # Playbooks
