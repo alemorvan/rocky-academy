@@ -123,7 +123,7 @@ table {
 </style>
 # `ansible-galaxy` command
 
-* To manage roles:
+To manage roles:
 
 ```
 ansible-galaxy role [import|init|install|login|remove|...]
@@ -146,7 +146,7 @@ table {
 </style>
 # `ansible-galaxy` command
 
-* To manage collections:
+To manage collections:
 
 ```
 ansible-galaxy collection [import|init|install|login|remove|...]
@@ -180,7 +180,7 @@ You can check the code in the github repo of the role [here](https://github.com/
 ---
 # Installing useful Roles
 
-* Install the role. This needs only one command:
+Install the role. This needs only one command:
 
 ```
 ansible-galaxy role install alemorvan.patchmanagement
@@ -189,7 +189,7 @@ ansible-galaxy role install alemorvan.patchmanagement
 ---
 # Installing useful Roles
 
-* Create a playbook to include the role:
+Create a playbook to include the role:
 
 ```
 - name: Start a Patch Management
@@ -214,7 +214,7 @@ Let's create tasks that will be run before and after the update process.
 ---
 # Installing useful Roles
 
-* Create the `custom_tasks` folder:
+Create the `custom_tasks` folder:
 
 ```
 mkdir custom_tasks
@@ -223,7 +223,7 @@ mkdir custom_tasks
 ---
 # Installing useful Roles
 
-* Create the `custom_tasks/pm_before_update_tasks_file.yml` (feel free to change the name and the content of this file)
+Create the `custom_tasks/pm_before_update_tasks_file.yml` (feel free to change the name and the content of this file)
 
 ```
 ---
@@ -235,7 +235,7 @@ mkdir custom_tasks
 ---
 # Installing useful Roles
 
-* Create the `custom_tasks/pm_after_update_tasks_file.yml` (feel free to change the name and the content of this file)
+Create the `custom_tasks/pm_after_update_tasks_file.yml` (feel free to change the name and the content of this file)
 
 ```
 ---
