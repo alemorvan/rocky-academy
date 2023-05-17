@@ -72,6 +72,7 @@ Learning Linux made easy.
 
 # Learning Ansible with Rocky Linux
 
-* [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.html)
-* [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
-* [Ansible Intermediate](./ansible/Learning_Ansible_with_Rocky-2-Ansible_Advanced.html)
+:heavy_check_mark: [Introduction](./ansible/Learning_Ansible_with_Rocky-0-Introduction.html)
+:heavy_check_mark: [Ansible Basics](./ansible/Learning_Ansible_with_Rocky-1-Ansible_Basics.html)
+:heavy_check_mark: [Ansible Intermediate](./ansible/Learning_Ansible_with_Rocky-2-Ansible_Advanced.html)
+:heavy_check_mark: [ Management of Files](./ansible/Learning_Ansible_with_Rocky-3-Working_with_files.html)
