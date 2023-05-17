@@ -87,12 +87,13 @@ In this chapter you will learn how to manage files with Ansible.
 
 # Plan
 
-* [get_url module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#5)
-* [template module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#5)
-* [fetch module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#5)
-* [copy module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#5)
-* [lineinfile module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#5)
 * [ini_file module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#5)
+* [lineinfile module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#10)
+* [copy module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#14)
+* [fetch module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#18)
+* [template module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#22)
+* [get_url module](./Learning_Ansible_with_Rocky-3-Working_with_files.html#27)
+
 
 ---
 #
